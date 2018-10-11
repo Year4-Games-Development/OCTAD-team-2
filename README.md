@@ -1,5 +1,5 @@
-# OCTAD
-OCTAD = Open College Text ADventure
+# OCTAD - Team 2
+OCTAD Team 2 = Open College Text ADventure
 
 Unity Text Adventure tutorial
 
