@@ -6,24 +6,37 @@ using UnityEngine.UI;
 
 public class MyGameManager : MonoBehaviour
 {
+    private static MyGameManager _instance;
+
+    public static MyGameManager instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new GameObject().AddComponent<MyGameManager>();
+            return _instance;
+        }
+    }
+
     public Text textOut;
     public InputField textIn;
+
     private CommandParser commandParser;
-
     private Map map;
-
-    private Location currentLocation;
+	private Player player;
 
     void Awake()
     {
         map = new Map();
         commandParser = new CommandParser();
+        textIn = GameObject.Find("InputField").GetComponent<InputField>();
+        textOut = GameObject.Find("Text-out").GetComponent<Text>();
+        player = new Player();
     }
 
     private void Start()
     {
-        ShowMessage("Loading game map ....");
-
+        ShowMessage("Loading game map...");
         ChangeLocation(map.GetStartLocation());
     }
 
@@ -55,6 +68,8 @@ public class MyGameManager : MonoBehaviour
         // set input field with Focus - ready for next user input
         textIn.Select();
         textIn.ActivateInputField();
+
+        player.OnPlayerMoved();
     }
 
     private void ProcessMultiWordUserCommand(CommandAndOtherWords commandNounPair)
@@ -71,16 +86,16 @@ public class MyGameManager : MonoBehaviour
                 message = "user wants to QUIT";
                 break;
             case Util.Command.Look:
-                message = currentLocation.GetFullDescription();
+                message = player.GetLocation().GetFullDescription();
                 break;
             case Util.Command.Help:
                 message = Util.Message(Util.Type.Help);
                 break;
             case Util.Command.North:
-                if (null != currentLocation.exitNorth)
+                if (null != player.GetLocation().exitNorth)
                 {
                     message = Util.Message(Util.Type.North);
-                    ChangeLocation(currentLocation.exitNorth);                    
+                    ChangeLocation(player.GetLocation().exitNorth);                    
                 }
                 else
                 {
@@ -88,11 +103,11 @@ public class MyGameManager : MonoBehaviour
                 }
                 break;
             case Util.Command.South:
-                if (null != currentLocation.exitSouth)
+                if (null != player.GetLocation().exitSouth)
                 {
                     message = Util.Message(Util.Type.South
                     );
-                    ChangeLocation(currentLocation.exitSouth);                    
+                    ChangeLocation(player.GetLocation().exitSouth);                    
                 }
                 else
                 {
@@ -100,11 +115,11 @@ public class MyGameManager : MonoBehaviour
                 }
                 break;
             case Util.Command.East:
-                if (null != currentLocation.exitEast)
+                if (null != player.GetLocation().exitEast)
                 {
                     message = Util.Message(Util.Type.East
                     );
-                    ChangeLocation(currentLocation.exitEast);                    
+                    ChangeLocation(player.GetLocation().exitEast);                    
                 }
                 else
                 {
@@ -112,11 +127,11 @@ public class MyGameManager : MonoBehaviour
                 }
                 break;
             case Util.Command.West:
-                if (null != currentLocation.exitWest)
+                if (null != player.GetLocation().exitWest)
                 {
                     message = Util.Message(Util.Type.West
                     );
-                    ChangeLocation(currentLocation.exitWest);                    
+                    ChangeLocation(player.GetLocation().exitWest);                    
                 }
                 else
                 {
@@ -134,14 +149,12 @@ public class MyGameManager : MonoBehaviour
 
     private void ChangeLocation(Location newLocation)
     {
-        currentLocation = newLocation;        
-        currentLocation.firstVisit = false;
-
-        ShowMessage(currentLocation.GetFullDescription());
+        player.SetLocation(newLocation);
+        MyGameManager.instance.ShowMessage(player.GetLocation().GetFullDescription());
     }
 
 
-    private void ShowMessage(string message)
+    public void ShowMessage(string message)
     {
         textOut.text += "\n" + message;
         

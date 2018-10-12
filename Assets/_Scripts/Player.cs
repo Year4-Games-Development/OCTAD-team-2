@@ -3,31 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 
 
-public class Player {
-
-//    float hp;
-//    float maxHp;
+public class Player
+{
+    // float hp;
+    // float maxHp;
     float oxygenLevel;
-    
+
     /*
      * can infer from oxygen level ...
     bool isDead;
      */
 
     List<PickUp> items;
-//    List<int> quests;
-    float amountOfMoney;  
+    //    List<int> quests;
+    float amountOfMoney;
+    Location currentLocation;
 
-	public Player() {
+    public Player()
+    {
         oxygenLevel = 1.0f;
 
-//	    hp = 10;
-//	    maxHp = 10;
-//      isDead = false;
-	}
-
-
-
+        //	    hp = 10;
+        //	    maxHp = 10;
+        //      isDead = false;
+    }
+    
     void addItem(PickUp item)
     {
         items.Add(item);
@@ -39,7 +39,7 @@ public class Player {
     }
 
     /*
-         void takeDamages(float dmg)
+    void takeDamages(float dmg)
     {
         hp -= dmg;
         if (hp <= 0)
@@ -72,5 +72,39 @@ public class Player {
     {
         amountOfMoney -= money;
     }
-*/
+    */
+
+    public void SetLocation(Location location)
+    {
+        currentLocation = location;
+    }
+
+    public Location GetLocation()
+    {
+        return currentLocation;
+    }
+
+    public void OnPlayerMoved()
+    {
+        currentLocation.firstVisit = false;
+        if (currentLocation.name == "In Ship") // FIXME: Hardcoded string.
+        {
+            if (oxygenLevel != 1.0f)
+            {
+                oxygenLevel = 1.0f;
+                MyGameManager.instance.ShowMessage("Oxygen refilled.");
+            }
+        }
+        else
+        {
+            oxygenLevel -= .01f;
+            MyGameManager.instance.ShowMessage("Current Oxygen Level: " + (oxygenLevel * 100) + "%");
+        }
+        
+    }
+
+    public bool IsDead()
+    {
+        return oxygenLevel <= .0f;
+    }
 }
