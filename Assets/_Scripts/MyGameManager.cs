@@ -38,18 +38,25 @@ public class MyGameManager : MonoBehaviour
 
         Util.Command command = commandNounPair.command;
 
-        switch (commandNounPair.numWords)
+        if (command == Util.Command.Help)
         {
-            case 1:
-                // process that command
-                ProcessSingleWordUserCommand(command);
-                break;
+            ProcessHelp(userText);
+        }
+        else
+        {
+            switch (commandNounPair.numWords)
+            {
+                case 1:
+                    // process that command
+                    ProcessSingleWordUserCommand(command);
+                    break;
 
-            case 2:
-            default:
-                // process that command
-                ProcessMultiWordUserCommand(commandNounPair);
-                break;
+                case 2:
+                default:
+                    // process that command
+                    ProcessMultiWordUserCommand(commandNounPair);
+                    break;
+            }
         }
 
         // set input field with Focus - ready for next user input
@@ -73,9 +80,9 @@ public class MyGameManager : MonoBehaviour
             case Util.Command.Look:
                 message = currentLocation.GetFullDescription();
                 break;
-            case Util.Command.Help:
-                message = Util.Message(Util.Type.Help);
-                break;
+            //case Util.Command.Help:
+            //    message = Util.Message(Util.Type.Help);
+            //    break;
             case Util.Command.North:
                 if (null != currentLocation.exitNorth)
                 {
@@ -140,7 +147,6 @@ public class MyGameManager : MonoBehaviour
         ShowMessage(currentLocation.GetFullDescription());
     }
 
-
     private void ShowMessage(string message)
     {
         textOut.text += "\n" + message;
@@ -150,6 +156,34 @@ public class MyGameManager : MonoBehaviour
 
     }
     
-    
+    private void ProcessHelp(string message)
+    {
+        // TODO: Move this later on.
+        message = message.Trim().ToLower().Replace("  ", " ");
 
+        if (!message.Contains(" "))
+        {
+            ShowMessage("Available commands:");
+            foreach (string key in Util.commands.Keys)
+            {
+                ShowMessage(key);
+            }
+            ShowMessage(""); // Skip an extra line.
+        }
+
+        string[] res = message.Split(' ');
+        if (res.Length > 1)
+        {
+            string key = res[1];
+            string value;
+            if (Util.commands.TryGetValue(key, out value))
+            {
+                ShowMessage("Command: " + Util.ColorText(key, Color.red) + "\nDescription:\n" + Util.ColorText(value, Color.red));
+            }
+            else
+            {
+                ShowMessage("There is no documentation available for command name '" + Util.ColorText(key, Color.red) + "'.");
+            }
+        }
+    }
 }
