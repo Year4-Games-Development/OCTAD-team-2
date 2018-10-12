@@ -71,10 +71,10 @@ public class MyGameManager : MonoBehaviour
                 message = "user wants to QUIT";
                 break;
             case Util.Command.Look:
-                message = currentLocation.GetFullDescription();
+                message = "You look around... \n " +currentLocation.GetLookDesc();
                 break;
             case Util.Command.Help:
-                message = Util.Message(Util.Type.Help);
+                message = "HELP: \n " + currentLocation.GetFullHelp();
                 break;
             case Util.Command.North:
                 if (null != currentLocation.exitNorth)
