@@ -25,6 +25,14 @@ public class MyGameManager : MonoBehaviour
     private Map map;
 	private Player player;
 
+    public Log log;
+
+    //List for logging
+    static List<string> actionLog = new List<string>();
+    public Text displayText;
+
+
+
     void Awake()
     {
         map = new Map();
@@ -38,6 +46,8 @@ public class MyGameManager : MonoBehaviour
     {
         ShowMessage("Loading game map...");
         ChangeLocation(map.GetStartLocation());
+        //ShowMessage(log.DisplayLoggedText());
+        
     }
 
     public void ProcessInput(string userText)
@@ -70,6 +80,7 @@ public class MyGameManager : MonoBehaviour
         textIn.ActivateInputField();
 
         player.OnPlayerMoved();
+        
     }
 
     private void ProcessMultiWordUserCommand(CommandAndOtherWords commandNounPair)
@@ -161,8 +172,21 @@ public class MyGameManager : MonoBehaviour
         // extra lines so we can see all the output
         textOut.text += "\n\n\n";
 
-    }
-    
-    
+    }//end showMessage
+
+
+    //method to log text
+    public void LogString(string stringToAdd)
+    {
+        actionLog.Add(stringToAdd + "\n");
+
+    }//end LogString method
+
+    public void DisplayLoggedText()
+    {
+        string logAsText = string.Join("\n", actionLog.ToArray());
+        displayText.text = logAsText;
+    }//end displayLoggedText method
+
 
 }
