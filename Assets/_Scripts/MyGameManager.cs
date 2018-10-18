@@ -25,6 +25,11 @@ public class MyGameManager : MonoBehaviour
     private Map map;
 	private Player player;
 
+
+    //List for logging previous actions
+    static List<string> actionLog = new List<string>();
+
+
     void Awake()
     {
         map = new Map();
@@ -38,6 +43,8 @@ public class MyGameManager : MonoBehaviour
     {
         ShowMessage("Loading game map...");
         ChangeLocation(map.GetStartLocation());
+        
+        
     }
 
     public void ProcessInput(string userText)
@@ -70,6 +77,7 @@ public class MyGameManager : MonoBehaviour
         textIn.ActivateInputField();
 
         player.OnPlayerMoved();
+        
     }
 
     private void ProcessMultiWordUserCommand(CommandAndOtherWords commandNounPair)
@@ -156,13 +164,26 @@ public class MyGameManager : MonoBehaviour
 
     public void ShowMessage(string message)
     {
-        textOut.text += "\n" + message;
-        
-        // extra lines so we can see all the output
-        textOut.text += "\n\n\n";
+        LogString(message);
+        DisplayLoggedText();
 
-    }
-    
-    
+    }//end showMessage
+
+
+    //method to log actions of the user
+    public void LogString(string stringToAdd)
+    {
+        actionLog.Add(stringToAdd + "\n");
+
+    }//end LogString method
+
+    //method to display the previous actions
+    public void DisplayLoggedText()
+    {
+        //add user input to an array
+        string logAsText = string.Join("\n", actionLog.ToArray());
+        textOut.text = logAsText;
+    }//end displayLoggedText method
+
 
 }
