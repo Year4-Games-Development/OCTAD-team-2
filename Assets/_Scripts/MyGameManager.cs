@@ -25,12 +25,9 @@ public class MyGameManager : MonoBehaviour
     private Map map;
 	private Player player;
 
-    public Log log;
 
-    //List for logging
+    //List for logging previous actions
     static List<string> actionLog = new List<string>();
-    public Text displayText;
-
 
 
     void Awake()
@@ -46,7 +43,7 @@ public class MyGameManager : MonoBehaviour
     {
         ShowMessage("Loading game map...");
         ChangeLocation(map.GetStartLocation());
-        //ShowMessage(log.DisplayLoggedText());
+        
         
     }
 
@@ -167,25 +164,25 @@ public class MyGameManager : MonoBehaviour
 
     public void ShowMessage(string message)
     {
-        textOut.text += "\n" + message;
-        
-        // extra lines so we can see all the output
-        textOut.text += "\n\n\n";
+        LogString(message);
+        DisplayLoggedText();
 
     }//end showMessage
 
 
-    //method to log text
+    //method to log actions of the user
     public void LogString(string stringToAdd)
     {
         actionLog.Add(stringToAdd + "\n");
 
     }//end LogString method
 
+    //method to display the previous actions
     public void DisplayLoggedText()
     {
+        //add user input to an array
         string logAsText = string.Join("\n", actionLog.ToArray());
-        displayText.text = logAsText;
+        textOut.text = logAsText;
     }//end displayLoggedText method
 
 
