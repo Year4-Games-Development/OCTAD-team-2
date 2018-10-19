@@ -44,11 +44,12 @@ public class Util
 			case Type.Unknown:
 				return "UNKNOWN command - please write something I understand";
 			
-			case Type.Help:
+			/*case Type.Help:
 				return "Help:" +
 						"\n    - Quit: give up" +
 						"\n    - Help: see this help text" +
    						"\n    - Look: describe your current location";
+*/
 
 			default:
 				/*

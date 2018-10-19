@@ -1,6 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Location
 {
@@ -20,12 +21,41 @@ public class Location
 	public List<PickUp> pickupables;
 	// public int[] characters; 
 	public string[] descriptions;
-
+	public string[] help;
+int index;
+	public string[] look;
 	public string GetName()
 	{
 		return name;
 	}
+	
+	public string GetLook()
+	{	
+		//print next item in array	
+		if ((index > look.Length -1) || (index < 0))
+			Console.Write("something went wrong");
+		else if (index == look.Length -1)
+			index = 0;
 
+		else
+			index++;
+
+		return look[index];
+	}
+	
+	public string GetHelp()
+	{	
+		//print next item in array	
+		if ((index > help.Length -1) || (index < 0))
+			Console.Write("something went wrong");
+		else if (index == help.Length -1)
+			index = 0;
+
+		else
+			index++;
+
+		return help[index];       		
+	}
 	public string GetDescription()
 	{
 		// first visit show first description
@@ -76,6 +106,15 @@ public class Location
 	{
 		return GetDescription() + "\n" + GetExitDescriptions();
 	}
+	public string GetFullHelp()
+	{
+		return GetHelp() + " \n"+  " \n" + GetExitDescriptions();
+	}
+	public string GetLookDesc()
+	{
+		return GetLook() + " \n"+  " \n" + GetExitDescriptions();
+	}
+
 
 
 }
