@@ -97,7 +97,8 @@ public class MyGameManager : MonoBehaviour
                 message = "You look around... \n " + player.GetLocation().GetLookDesc();
                 break;
             case Util.Command.Help:
-                message = "HELP: \n " + player.GetLocation().GetFullHelp();                break;
+                message = "HELP: \n " + player.GetLocation().GetFullHelp();               
+                break;
             case Util.Command.North:
                 if (null != player.GetLocation().exitNorth)
                 {

@@ -25,3 +25,10 @@ Part 2 (10 parts)
 
 https://unity3d.com/learn/tutorials/topics/scripting/introduction-and-goals?playlist=17117
 
+
+version 0.1
+added oxygen level
+
+version 0.2
+better help and look 
+
