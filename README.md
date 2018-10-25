@@ -25,3 +25,18 @@ Part 2 (10 parts)
 
 https://unity3d.com/learn/tutorials/topics/scripting/introduction-and-goals?playlist=17117
 
+Implment better help
+
+Complete pick up system
+
+Complete NPC Quest system
+
+Complete Combat System
+
+Marge branches on github with the master branch.
+
+complete any last minute adjustments.
+
+make a pull request for all branches.
+
+finish work that needs to be finished and implement the different systems that have been made.
