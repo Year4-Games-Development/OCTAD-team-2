@@ -40,3 +40,14 @@ complete any last minute adjustments.
 make a pull request for all branches.
 
 finish work that needs to be finished and implement the different systems that have been made.
+
+
+----
+
+Version 0.1   | Version 0.2   |Version 0.3   |Version 0.4 | 
+------------- |------------- |-------------|-------------|
+|Command parser| added oxygen level  |better help sytem, added descriptions look command improved | two word command added |
+                        
+Version 0.5   | Version 0.5.1   |Version 0.5.2   |
+------------- |------------- |-------------|
+|Updated UI and font |added receaving quest (not completed) |pick up system (not completed) |
