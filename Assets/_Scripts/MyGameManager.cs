@@ -37,6 +37,10 @@ public class MyGameManager : MonoBehaviour
         textIn = GameObject.Find("InputField").GetComponent<InputField>();
         textOut = GameObject.Find("Text-out").GetComponent<Text>();
         player = new Player();
+
+        float f = 4.44f;
+        string message2 = "value = " + f.ToString("0");
+        print(message2);
     }
 
     private void Start()
@@ -103,7 +107,11 @@ public class MyGameManager : MonoBehaviour
                 if (null != player.GetLocation().exitNorth)
                 {
                     message = Util.Message(Util.Type.North);
-                    ChangeLocation(player.GetLocation().exitNorth);                    
+                    ChangeLocation(player.GetLocation().exitNorth);
+                    float oxLevel = player.HealthBoxFound() * 100;
+                    message = "You have found a healthbox, your oxygen level " +
+                        "is now " + oxLevel.ToString() + "%";
+                    
                 }
                 else
                 {
@@ -127,7 +135,8 @@ public class MyGameManager : MonoBehaviour
                 {
                     message = Util.Message(Util.Type.East
                     );
-                    ChangeLocation(player.GetLocation().exitEast);                    
+                    ChangeLocation(player.GetLocation().exitEast);
+                    message = "You have find an alien!!! You have to fight";
                 }
                 else
                 {

@@ -103,6 +103,18 @@ public class Player
         
     }
 
+    // Function when you find healthbox. It increases your oxygen level by
+    public float HealthBoxFound() {
+        oxygenLevel += .2f;
+
+        if(oxygenLevel > 1.0f) {
+
+            oxygenLevel = 1.0f;
+        }
+
+        return oxygenLevel;
+    }
+
     public bool IsDead()
     {
         return oxygenLevel <= .0f;
