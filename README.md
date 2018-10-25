@@ -24,9 +24,9 @@ Part 1 (8 parts)
 Part 2 (10 parts)
 
 https://unity3d.com/learn/tutorials/topics/scripting/introduction-and-goals?playlist=17117
-----
-TODO:
 
+TODO:
+----
 Implment better help
 
 Complete pick up system
@@ -43,7 +43,7 @@ make a pull request for all branches.
 
 finish work that needs to be finished and implement the different systems that have been made.
 
-
+Releases
 ----
 
 Version 0.1   | Version 0.2   |Version 0.3   |Version 0.4 | 
