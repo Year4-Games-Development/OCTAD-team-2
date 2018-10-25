@@ -24,6 +24,8 @@ Part 1 (8 parts)
 Part 2 (10 parts)
 
 https://unity3d.com/learn/tutorials/topics/scripting/introduction-and-goals?playlist=17117
+----
+TODO:
 
 Implment better help
 
