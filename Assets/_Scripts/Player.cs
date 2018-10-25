@@ -15,20 +15,27 @@ public class Player
      */
 
     List<PickUp> items;
+    List<Quest> quests;
     //    List<int> quests;
     float amountOfMoney;
     Location currentLocation;
 
     public Player()
     {
+        items = new List<PickUp>();
+        quests = new List<Quest>();
+        
         oxygenLevel = 1.0f;
 
         //	    hp = 10;
         //	    maxHp = 10;
         //      isDead = false;
     }
-    
-    void addItem(PickUp item)
+    public void addQuest(Quest quest)
+    {
+        quests.Add(quest);
+    }
+    public void addItem(PickUp item)
     {
         items.Add(item);
     }
@@ -37,6 +44,7 @@ public class Player
     {
         items.Remove(item);
     }
+    
 
     /*
     void takeDamages(float dmg)
@@ -53,10 +61,7 @@ public class Player
             hp = maxHp;
     }
     
-    void addQuest(int questId)
-    {
-        quests.Add(questId);
-    }
+ 
 
     void removeQuest(int questId)
     {

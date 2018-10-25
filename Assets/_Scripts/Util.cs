@@ -20,11 +20,14 @@ public class Util
 		Quit,
 		Help,
 		Look,
+		Talk,
 		North,
 		South,
 		East,
 		West,
 		Pickup,
+		Pick,
+		Journal,
 		Drop,
 		Unknown        
 	}
@@ -33,6 +36,7 @@ public class Util
 	{
 		Door,
 		Key,
+		Up,
 		Unknown
         
 	}
@@ -44,11 +48,12 @@ public class Util
 			case Type.Unknown:
 				return "UNKNOWN command - please write something I understand";
 			
-			case Type.Help:
+			/*case Type.Help:
 				return "Help:" +
 						"\n    - Quit: give up" +
 						"\n    - Help: see this help text" +
    						"\n    - Look: describe your current location";
+*/
 
 			default:
 				/*

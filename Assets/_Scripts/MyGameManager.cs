@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -82,8 +84,39 @@ public class MyGameManager : MonoBehaviour
 
     private void ProcessMultiWordUserCommand(CommandAndOtherWords commandNounPair)
     {
-        ShowMessage("sorry - I don't know how to process 2(or more)-word commands yet");
-    }
+        Util.Command command = commandNounPair.command;
+        Util.Noun noun = commandNounPair.noun;
+        
+        
+        string message = "";
+        switch (command)
+        {
+            case Util.Command.Pick:
+                switch (noun)
+                {
+                    case Util.Noun.Up:
+                        message = "noting to pick up";
+                        if (player.GetLocation().pickupables.Count == 1)
+                        {
+                            PickUp item = player.GetLocation().pickupables[0];
+                            message = "You picked up: " + item.name + " (" + item.description + ")";   
+                            player.addItem(item);
+                            player.GetLocation().pickupables = new List<PickUp>();
+                        }
+        
+                        break;
+                    default:
+                        message = Util.Message(Util.Type.Unknown);
+                        break;
+                }
+                break;
+                default:
+                message = Util.Message(Util.Type.Unknown);
+                break;
+        }
+
+        ShowMessage(message);
+        }
 
     private void ProcessSingleWordUserCommand(Util.Command c)
     {
@@ -94,10 +127,30 @@ public class MyGameManager : MonoBehaviour
                 message = "user wants to QUIT";
                 break;
             case Util.Command.Look:
-                message = player.GetLocation().GetFullDescription();
+                message = "You look around... \n " + player.GetLocation().GetLookDesc();
                 break;
             case Util.Command.Help:
-                message = Util.Message(Util.Type.Help);
+                message = "HELP: \n " + player.GetLocation().GetFullHelp();               
+                break;
+            case Util.Command.Talk:
+                
+                if (player.GetLocation().quests.Count == 1)
+                { 
+                    Quest quest = player.GetLocation().quests[0];
+                    message = player.GetLocation().GetTalk() + " \n New Quest added!  \n" + quest.name + " (" + quest.description + ")";           
+                    player.addQuest(quest);
+                    player.GetLocation().quests = new List<Quest>();
+
+                }
+                else
+                {
+                    message = "There is no one to talk to here";
+                }
+                break;
+            case Util.Command.Journal:
+
+                message = "Your items: \n " + "List of items " + "\n " + " \n Your Quests: \n "+ "List of quests " ;
+                        
                 break;
             case Util.Command.North:
                 if (null != player.GetLocation().exitNorth)
