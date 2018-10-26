@@ -11,15 +11,18 @@ public class PickUp {
     };
 */
 
-    int id;
-    string name;
-    string description;
+    public int id;
+    public string name;
+    public string description;
 
 //    Type type;
 //    float exchangeValue;
 
-	public PickUp () {
-		
+	public PickUp (int id, string name, string description)
+	{
+	    this.id = id;
+	    this.name = name;
+	    this.description = description;
 	}
 
     /*

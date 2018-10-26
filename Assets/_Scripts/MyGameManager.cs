@@ -1,30 +1,54 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MyGameManager : MonoBehaviour
 {
+    private static MyGameManager _instance;
+
+    public static MyGameManager instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = new GameObject().AddComponent<MyGameManager>();
+            return _instance;
+        }
+    }
+
     public Text textOut;
     public InputField textIn;
+
     private CommandParser commandParser;
-
     private Map map;
+	private Player player;
+    private PickUp pickup;
+    private Quest quest;
 
-    private Location currentLocation;
+
+    //List for logging previous actions
+    static List<string> actionLog = new List<string>();
+
 
     void Awake()
     {
         map = new Map();
         commandParser = new CommandParser();
+        textIn = GameObject.Find("InputField").GetComponent<InputField>();
+        textOut = GameObject.Find("Text-out").GetComponent<Text>();
+        player = new Player();
     }
 
     private void Start()
     {
-        ShowMessage("Loading game map ....");
-
+        ShowMessage("Loading game map...");
         ChangeLocation(map.GetStartLocation());
+        
+        
     }
 
     public void ProcessInput(string userText)
@@ -62,12 +86,47 @@ public class MyGameManager : MonoBehaviour
         // set input field with Focus - ready for next user input
         textIn.Select();
         textIn.ActivateInputField();
+
+        player.OnPlayerMoved();
+        
     }
 
     private void ProcessMultiWordUserCommand(CommandAndOtherWords commandNounPair)
     {
-        ShowMessage("sorry - I don't know how to process 2(or more)-word commands yet");
-    }
+        Util.Command command = commandNounPair.command;
+        Util.Noun noun = commandNounPair.noun;
+        
+        
+        string message = "";
+        switch (command)
+        {
+            case Util.Command.Pick:
+                switch (noun)
+                {
+                    case Util.Noun.Up:
+                        message = "noting to pick up";
+                        if (player.GetLocation().pickupables.Count == 1)
+                        {
+                            PickUp item = player.GetLocation().pickupables[0];
+                            message = "You picked up: " + item.name + " (" + item.description + ")";   
+                            player.addItem(item);
+                            player.GetLocation().pickupables = new List<PickUp>();
+                            
+                        }
+        
+                        break;
+                    default:
+                        message = Util.Message(Util.Type.Unknown);
+                        break;
+                }
+                break;
+                default:
+                message = Util.Message(Util.Type.Unknown);
+                break;
+        }
+
+        ShowMessage(message);
+        }
 
     private void ProcessSingleWordUserCommand(Util.Command c)
     {
@@ -78,16 +137,57 @@ public class MyGameManager : MonoBehaviour
                 message = "user wants to QUIT";
                 break;
             case Util.Command.Look:
-                message = currentLocation.GetFullDescription();
+                message = "You look around... \n " + player.GetLocation().GetLookDesc();
                 break;
-            //case Util.Command.Help:
-            //    message = Util.Message(Util.Type.Help);
-            //    break;
+            case Util.Command.Talk:
+                
+                if (player.GetLocation().quests.Count == 1)
+                { 
+                    Quest quest = player.GetLocation().quests[0];
+                    message = player.GetLocation().GetTalk() + " \n New Quest added!  \n" + quest.name + " (" + quest.description + ")";           
+                    player.addQuest(quest);
+                    player.GetLocation().quests = new List<Quest>();
+                 
+
+                }
+                else
+                {
+                    message = "There is no one to talk to here";
+                }
+                break;
+            case Util.Command.Journal:
+                message = "Journal: \n " ;
+                if(player.quests.Count == 1){
+
+                foreach (Quest quest in player.quests)
+                    {
+                        message = "Quests: \n" + "Quest Name: " + quest.name + "\n " + "Description: " +quest.description;
+                    }
+                }
+                else
+                {
+                    message = "You have no active quests";
+                } 
+                break;
+            case Util.Command.Backpack:
+                message = "You look into your backpack: \n " ;
+                if (player.items.Count > 0)
+                {
+                    foreach (PickUp item in player.items)
+                    {
+                        message = "Your Items: \n" + item.name + " (" + item.description+ ")\n ";
+                    }
+                }
+                else
+                {
+                    message = "no items in backpack";
+                } 
+                break;
             case Util.Command.North:
-                if (null != currentLocation.exitNorth)
+                if (null != player.GetLocation().exitNorth)
                 {
                     message = Util.Message(Util.Type.North);
-                    ChangeLocation(currentLocation.exitNorth);                    
+                    ChangeLocation(player.GetLocation().exitNorth);                    
                 }
                 else
                 {
@@ -95,11 +195,11 @@ public class MyGameManager : MonoBehaviour
                 }
                 break;
             case Util.Command.South:
-                if (null != currentLocation.exitSouth)
+                if (null != player.GetLocation().exitSouth)
                 {
                     message = Util.Message(Util.Type.South
                     );
-                    ChangeLocation(currentLocation.exitSouth);                    
+                    ChangeLocation(player.GetLocation().exitSouth);                    
                 }
                 else
                 {
@@ -107,11 +207,11 @@ public class MyGameManager : MonoBehaviour
                 }
                 break;
             case Util.Command.East:
-                if (null != currentLocation.exitEast)
+                if (null != player.GetLocation().exitEast)
                 {
                     message = Util.Message(Util.Type.East
                     );
-                    ChangeLocation(currentLocation.exitEast);                    
+                    ChangeLocation(player.GetLocation().exitEast);                    
                 }
                 else
                 {
@@ -119,11 +219,11 @@ public class MyGameManager : MonoBehaviour
                 }
                 break;
             case Util.Command.West:
-                if (null != currentLocation.exitWest)
+                if (null != player.GetLocation().exitWest)
                 {
                     message = Util.Message(Util.Type.West
                     );
-                    ChangeLocation(currentLocation.exitWest);                    
+                    ChangeLocation(player.GetLocation().exitWest);                    
                 }
                 else
                 {
@@ -141,20 +241,32 @@ public class MyGameManager : MonoBehaviour
 
     private void ChangeLocation(Location newLocation)
     {
-        currentLocation = newLocation;        
-        currentLocation.firstVisit = false;
-
-        ShowMessage(currentLocation.GetFullDescription());
+        player.SetLocation(newLocation);
+        MyGameManager.instance.ShowMessage(player.GetLocation().GetFullDescription());
     }
 
-    private void ShowMessage(string message)
+    public void ShowMessage(string message)
     {
-        textOut.text += "\n" + message;
-        
-        // extra lines so we can see all the output
-        textOut.text += "\n\n\n";
+        LogString(message);
+        DisplayLoggedText();
 
-    }
+    }//end showMessage
+
+
+    //method to log actions of the user
+    public void LogString(string stringToAdd)
+    {
+        actionLog.Add(stringToAdd + "\n");
+
+    }//end LogString method
+
+    //method to display the previous actions
+    public void DisplayLoggedText()
+    {
+        //add user input to an array
+        string logAsText = string.Join("\n", actionLog.ToArray());
+        textOut.text = logAsText;
+    }//end displayLoggedText method
     
     private void ProcessHelp(string message)
     {
@@ -168,7 +280,7 @@ public class MyGameManager : MonoBehaviour
             {
                 ShowMessage(key);
             }
-            ShowMessage(""); // Skip an extra line.
+            ShowMessage("\n TIPS: \n" + player.GetLocation().GetFullHelp() + "\n");
         }
 
         string[] res = message.Split(' ');

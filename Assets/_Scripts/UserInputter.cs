@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class UserInputter : MonoBehaviour
 {
-    public MyGameManager myGameManager;
     private InputField textIn;
 
     void Awake()
@@ -22,7 +21,7 @@ public class UserInputter : MonoBehaviour
         textIn.text = "";
 
         // send text for processing by Game Manager
-        myGameManager.ProcessInput(userText);
+        MyGameManager.instance.ProcessInput(userText);
         
     }
 

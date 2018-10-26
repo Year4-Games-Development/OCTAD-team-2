@@ -36,11 +36,15 @@ public class Util
 		Quit,
 		Help,
 		Look,
+		Talk,
 		North,
 		South,
 		East,
 		West,
 		Pickup,
+		Backpack,
+		Pick,
+		Journal,
 		Drop,
 		Unknown        
 	}
@@ -49,6 +53,7 @@ public class Util
 	{
 		Door,
 		Key,
+		Up,
 		Unknown
         
 	}
