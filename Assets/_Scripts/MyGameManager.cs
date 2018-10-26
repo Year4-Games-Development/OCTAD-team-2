@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +26,8 @@ public class MyGameManager : MonoBehaviour
     private CommandParser commandParser;
     private Map map;
 	private Player player;
+    private PickUp pickup;
+    private Quest quest;
 
 
     //List for logging previous actions
@@ -82,8 +86,40 @@ public class MyGameManager : MonoBehaviour
 
     private void ProcessMultiWordUserCommand(CommandAndOtherWords commandNounPair)
     {
-        ShowMessage("sorry - I don't know how to process 2(or more)-word commands yet");
-    }
+        Util.Command command = commandNounPair.command;
+        Util.Noun noun = commandNounPair.noun;
+        
+        
+        string message = "";
+        switch (command)
+        {
+            case Util.Command.Pick:
+                switch (noun)
+                {
+                    case Util.Noun.Up:
+                        message = "noting to pick up";
+                        if (player.GetLocation().pickupables.Count == 1)
+                        {
+                            PickUp item = player.GetLocation().pickupables[0];
+                            message = "You picked up: " + item.name + " (" + item.description + ")";   
+                            player.addItem(item);
+                            player.GetLocation().pickupables = new List<PickUp>();
+                            
+                        }
+        
+                        break;
+                    default:
+                        message = Util.Message(Util.Type.Unknown);
+                        break;
+                }
+                break;
+                default:
+                message = Util.Message(Util.Type.Unknown);
+                break;
+        }
+
+        ShowMessage(message);
+        }
 
     private void ProcessSingleWordUserCommand(Util.Command c)
     {
@@ -94,10 +130,62 @@ public class MyGameManager : MonoBehaviour
                 message = "user wants to QUIT";
                 break;
             case Util.Command.Look:
-                message = player.GetLocation().GetFullDescription();
+                message = "You look around... \n " + player.GetLocation().GetLookDesc();
                 break;
             case Util.Command.Help:
-                message = Util.Message(Util.Type.Help);
+                message = "HELP: \n "+ 
+                          "COMMANDS:  \n " +   
+                          "\n    - Quit: leave game" +
+                          "\n    - look: look around you"+
+                          "\n    - talk: to talk with NPC"+
+                          "\n    - backpack: show your current inventory"+
+                          "\n    - journal: show your current quests"+
+                          "\n    - pick up: add a object to backpack \n " +
+                          "\n TIPS: \n" + player.GetLocation().GetFullHelp();               
+                break;
+            case Util.Command.Talk:
+                
+                if (player.GetLocation().quests.Count == 1)
+                { 
+                    Quest quest = player.GetLocation().quests[0];
+                    message = player.GetLocation().GetTalk() + " \n New Quest added!  \n" + quest.name + " (" + quest.description + ")";           
+                    player.addQuest(quest);
+                    player.GetLocation().quests = new List<Quest>();
+                 
+
+                }
+                else
+                {
+                    message = "There is no one to talk to here";
+                }
+                break;
+            case Util.Command.Journal:
+                message = "Journal: \n " ;
+                if(player.quests.Count == 1){
+
+                foreach (Quest quest in player.quests)
+                    {
+                        message = "Quests: \n" + "Quest Name: " + quest.name + "\n " + "Description: " +quest.description;
+                    }
+                }
+                else
+                {
+                    message = "You have no active quests";
+                } 
+                break;
+            case Util.Command.Backpack:
+                message = "You look into your backpack: \n " ;
+                if (player.items.Count > 0)
+                {
+                    foreach (PickUp item in player.items)
+                    {
+                        message = "Your Items: \n" + item.name + " (" + item.description+ ")\n ";
+                    }
+                }
+                else
+                {
+                    message = "no items in backpack";
+                } 
                 break;
             case Util.Command.North:
                 if (null != player.GetLocation().exitNorth)
