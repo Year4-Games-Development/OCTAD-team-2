@@ -62,18 +62,25 @@ public class MyGameManager : MonoBehaviour
 
         Util.Command command = commandNounPair.command;
 
-        switch (commandNounPair.numWords)
+        if (command == Util.Command.Help)
         {
-            case 1:
-                // process that command
-                ProcessSingleWordUserCommand(command);
-                break;
+            ProcessHelp(userText);
+        }
+        else
+        {
+            switch (commandNounPair.numWords)
+            {
+                case 1:
+                    // process that command
+                    ProcessSingleWordUserCommand(command);
+                    break;
 
-            case 2:
-            default:
-                // process that command
-                ProcessMultiWordUserCommand(commandNounPair);
-                break;
+                case 2:
+                default:
+                    // process that command
+                    ProcessMultiWordUserCommand(commandNounPair);
+                    break;
+            }
         }
 
         // set input field with Focus - ready for next user input
@@ -131,17 +138,6 @@ public class MyGameManager : MonoBehaviour
                 break;
             case Util.Command.Look:
                 message = "You look around... \n " + player.GetLocation().GetLookDesc();
-                break;
-            case Util.Command.Help:
-                message = "HELP: \n "+ 
-                          "COMMANDS:  \n " +   
-                          "\n    - Quit: leave game" +
-                          "\n    - look: look around you"+
-                          "\n    - talk: to talk with NPC"+
-                          "\n    - backpack: show your current inventory"+
-                          "\n    - journal: show your current quests"+
-                          "\n    - pick up: add a object to backpack \n " +
-                          "\n TIPS: \n" + player.GetLocation().GetFullHelp();               
                 break;
             case Util.Command.Talk:
                 
@@ -249,7 +245,6 @@ public class MyGameManager : MonoBehaviour
         MyGameManager.instance.ShowMessage(player.GetLocation().GetFullDescription());
     }
 
-
     public void ShowMessage(string message)
     {
         LogString(message);
@@ -272,6 +267,35 @@ public class MyGameManager : MonoBehaviour
         string logAsText = string.Join("\n", actionLog.ToArray());
         textOut.text = logAsText;
     }//end displayLoggedText method
+    
+    private void ProcessHelp(string message)
+    {
+        // TODO: Move this later on.
+        message = message.Trim().ToLower().Replace("  ", " ");
 
+        if (!message.Contains(" "))
+        {
+            ShowMessage("Available commands:");
+            foreach (string key in Util.commands.Keys)
+            {
+                ShowMessage(key);
+            }
+            ShowMessage("\n TIPS: \n" + player.GetLocation().GetFullHelp() + "\n");
+        }
 
+        string[] res = message.Split(' ');
+        if (res.Length > 1)
+        {
+            string key = res[1];
+            string value;
+            if (Util.commands.TryGetValue(key, out value))
+            {
+                ShowMessage("Command: " + Util.ColorText(key, Color.red) + "\nDescription:\n" + Util.ColorText(value, Color.red));
+            }
+            else
+            {
+                ShowMessage("There is no documentation available for command name '" + Util.ColorText(key, Color.red) + "'.");
+            }
+        }
+    }
 }
