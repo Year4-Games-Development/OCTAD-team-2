@@ -110,7 +110,7 @@ public class Player
 
     // Increases player's oxygen level by the specified value.
     public void IncreaseOxygen(float value) {
-        oxygenLevel = Math.Max(oxygenLevel + value, 1f);
+        oxygenLevel = Math.Min(oxygenLevel + value, 1f);
         MyGameManager.instance.ShowMessage("Your oxygen level has increased by " + (int)Math.Round(value * 100) + "%.");
         MyGameManager.instance.ShowMessage("Current Oxygen Level: " + (int)Math.Round(oxygenLevel * 100) + "%");
     }
