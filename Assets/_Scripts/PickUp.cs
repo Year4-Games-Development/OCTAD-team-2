@@ -25,6 +25,20 @@ public class PickUp {
 	    this.description = description;
 	}
 
+    public void Pickup(Player player)
+    {
+        switch (id) // TODO: Move this.
+        {
+            case 2: // Instantly use this item and do not add it to inventory.
+                player.IncreaseOxygen(.2f); // 20%
+                break;
+            default:
+                player.addItem(this);
+                break;
+        }
+        player.GetLocation().pickupables.Remove(this);
+    }
+
     /*
     void selectType (Type newType)
     {

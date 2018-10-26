@@ -45,6 +45,7 @@ public class MyGameManager : MonoBehaviour
 
     private void Start()
     {
+        _instance = this;
         ShowMessage("Loading game map...");
         ChangeLocation(map.GetStartLocation());
     }
@@ -107,8 +108,7 @@ public class MyGameManager : MonoBehaviour
                             // Pick up the first item in the list only.
                             PickUp item = pickups[0];
                             message = "You picked up: " + item.name + " (" + item.description + ")";
-                            player.addItem(item);
-                            player.GetLocation().pickupables.RemoveAt(0);
+                            item.Pickup(player);
                         }
                         else
                             message = "Nothing to pick up.";
