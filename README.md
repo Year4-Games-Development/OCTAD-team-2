@@ -50,6 +50,6 @@ Version 0.1   | Version 0.2   |Version 0.3   |Version 0.4 |
 ------------- |------------- |-------------|-------------|
 |Command parser| added oxygen level  |better help sytem, added descriptions look command improved | two word command added |
                         
-Version 0.5   | Version 0.5.1   |Version 0.5.2   |
-------------- |------------- |-------------|
-|Updated UI and font |added receaving quest (not completed) |pick up system (not completed) |
+Version 0.5   | Version 0.5.1   |Version 0.5.2   |Version 0.6 |
+------------- |------------- |-------------|-------------|
+|Updated UI and font |added receaving quest (not completed) |pick up system (not completed) |added journal and backpack|
