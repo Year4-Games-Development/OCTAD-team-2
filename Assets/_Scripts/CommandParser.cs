@@ -39,6 +39,9 @@ public class CommandParser
 
             case "key":
                 return Util.Noun.Key;
+            
+            case "up":
+                return Util.Noun.Up;
 
         }
         return Util.Noun.Unknown;
@@ -63,6 +66,8 @@ public class CommandParser
                 return Util.Command.Look;
             case "quit":
                 return Util.Command.Quit;
+            case "talk":
+                return Util.Command.Talk;
             case "north":
                 return Util.Command.North;
             case "n":
@@ -79,10 +84,14 @@ public class CommandParser
                 return Util.Command.West;
             case "w":
                 return Util.Command.West;
-
+            case "pick":
+                return Util.Command.Pick; 
             case "pickup":
                 return Util.Command.Pickup;
-            
+            case"journal":
+                return Util.Command.Journal;
+            case"backpack":
+                return Util.Command.Backpack;
         }
         return Util.Command.Unknown;
     }

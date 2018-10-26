@@ -2,66 +2,89 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Util 
+public class Util
 {
-	public enum Type
-	{
-		Start,
-		Help,
-		Unknown,
-		North,
-		South,
-		East,
-		West
-	}
-	
-	public enum Command
-	{
-		Quit,
-		Help,
-		Look,
-		North,
-		South,
-		East,
-		West,
-		Pickup,
-		Drop,
-		Unknown        
-	}
-	
-	public enum Noun
-	{
-		Door,
-		Key,
-		Unknown
-        
-	}
+    public static readonly Dictionary<string, string> commands;
 
-	public static string Message(Type t)
-	{
-		switch (t)
-		{
-			case Type.Unknown:
-				return "UNKNOWN command - please write something I understand";
-			
-			case Type.Help:
-				return "Help:" +
-						"\n    - Quit: give up" +
-						"\n    - Help: see this help text" +
-   						"\n    - Look: describe your current location";
+    static Util()
+    {
+        commands = new Dictionary<string, string>();
+        // TODO: Read a file instead.
+        commands.Add("quit", "Quits the game.");
+        commands.Add("look", "Look around you.");
+        commands.Add("north", "Makes your character move to the north side of your current location.");
+        commands.Add("south", "Makes your character move to the south side of your current location.");
+        commands.Add("east", "Makes your character move to the east side of your current location.");
+        commands.Add("west", "Makes your character move to the west side of your current location.");
+        commands.Add("backpack", "Shows your current inventory.");
+        commands.Add("journal", "Shows your current ongoing quests.");
+        commands.Add("pick up", "Picks up an item and add it to your backpack.");
+    }
 
-			default:
-				/*
+    public enum Type
+    {
+        Start,
+        Help,
+        Unknown,
+        North,
+        South,
+        East,
+        West
+    }
+
+    public enum Command
+    {
+        Quit,
+        Help,
+        Look,
+        Talk,
+        North,
+        South,
+        East,
+        West,
+        Pickup,
+        Backpack,
+        Pick,
+        Journal,
+        Unknown
+    }
+
+    public enum Noun
+    {
+        Door,
+        Key,
+        Up,
+        Unknown
+
+    }
+
+    public static string Message(Type t)
+    {
+        switch (t)
+        {
+            case Type.Unknown:
+                return "UNKNOWN command - please write something I understand";
+
+            default:
+                /*
 				 * TODO: Generate some kind of error event ??
 				 */
-				return "";				
-		}
+                return "";
+        }
+    }
 
-	}
 
+    public static string ColorText(string t, string color)
+    {
+        return "<color=" + color + ">" + t + "</color>";
+    }
 
-	public static string ColorText(string t, string color)
-	{
-		return "<color=" + color + ">" + t + "</color>";
-	}
+    public static string ColorText(string t, Color color)
+    {
+        return "<color=#" +
+            ((int)(color.r * 255f)).ToString("X2") +
+            ((int)(color.g * 255f)).ToString("X2") +
+            ((int)(color.b * 255f)).ToString("X2") +
+            ">" + t + "</color>";
+    }
 }

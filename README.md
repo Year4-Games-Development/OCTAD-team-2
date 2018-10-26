@@ -25,3 +25,31 @@ Part 2 (10 parts)
 
 https://unity3d.com/learn/tutorials/topics/scripting/introduction-and-goals?playlist=17117
 
+TODO:
+----
+Implment better help
+
+Complete pick up system
+
+Complete NPC Quest system
+
+Complete Combat System
+
+Marge branches on github with the master branch.
+
+complete any last minute adjustments.
+
+make a pull request for all branches.
+
+finish work that needs to be finished and implement the different systems that have been made.
+
+Releases
+----
+
+Version 0.1   | Version 0.2   |Version 0.3   |Version 0.4 | 
+------------- |------------- |-------------|-------------|
+|Command parser| added oxygen level  |better help sytem, added descriptions look command improved | two word command added |
+                        
+Version 0.5   | Version 0.5.1   |Version 0.5.2   |Version 0.6 |
+------------- |------------- |-------------|-------------|
+|Updated UI and font |added receaving quest |pick up system |added journal and backpack|
