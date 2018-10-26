@@ -92,7 +92,6 @@ public class CommandParser
                 return Util.Command.Journal;
             case"backpack":
                 return Util.Command.Backpack;
-            
         }
         return Util.Command.Unknown;
     }

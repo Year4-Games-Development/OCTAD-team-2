@@ -52,7 +52,6 @@ public class Map
 		};
 		startInShip.look = new string[]
 		{
-			"You see a (Inventory object) against the wall to the right of you. \n",
 			"There is a door to the South.\n",
 			"The ship seems damaged,\n"
 

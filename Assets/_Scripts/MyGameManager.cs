@@ -133,7 +133,15 @@ public class MyGameManager : MonoBehaviour
                 message = "You look around... \n " + player.GetLocation().GetLookDesc();
                 break;
             case Util.Command.Help:
-                message = "HELP: \n " + player.GetLocation().GetFullHelp();               
+                message = "HELP: \n "+ 
+                          "COMMANDS:  \n " +   
+                          "\n    - Quit: leave game" +
+                          "\n    - Look: look around you"+
+                          "\n    - talk: to talk with NPC"+
+                          "\n    - backpack: show your current inventory"+
+                          "\n    - journal: show your current quests"+
+                          "\n    - Pick up/pickup: add a object to backpack \n " +
+                          "\n TIPS: \n" + player.GetLocation().GetFullHelp();               
                 break;
             case Util.Command.Talk:
                 
