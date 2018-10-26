@@ -52,4 +52,4 @@ Version 0.1   | Version 0.2   |Version 0.3   |Version 0.4 |
                         
 Version 0.5   | Version 0.5.1   |Version 0.5.2   |Version 0.6 |
 ------------- |------------- |-------------|-------------|
-|Updated UI and font |added receaving quest (not completed) |pick up system (not completed) |added journal and backpack|
+|Updated UI and font |added receaving quest |pick up system |added journal and backpack|
