@@ -103,9 +103,16 @@ public class Player
         else
         {
             oxygenLevel -= .01f;
-            MyGameManager.instance.ShowMessage("Current Oxygen Level: " + (oxygenLevel * 100) + "%");
+            MyGameManager.instance.ShowMessage("Current Oxygen Level: " + (int)Math.Round(oxygenLevel * 100) + "%");
         }
         
+    }
+
+    // Increases player's oxygen level by the specified value.
+    public void IncreaseOxygen(float value) {
+        oxygenLevel = Math.Max(oxygenLevel + value, 1f);
+        MyGameManager.instance.ShowMessage("Your oxygen level has increased by " + (int)Math.Round(value * 100) + "%.");
+        MyGameManager.instance.ShowMessage("Current Oxygen Level: " + (int)Math.Round(oxygenLevel * 100) + "%");
     }
 
     public bool IsDead()

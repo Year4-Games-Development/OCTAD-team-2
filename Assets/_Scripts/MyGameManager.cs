@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -47,8 +47,6 @@ public class MyGameManager : MonoBehaviour
     {
         ShowMessage("Loading game map...");
         ChangeLocation(map.GetStartLocation());
-
-
     }
 
     public void ProcessInput(string userText)
@@ -88,7 +86,6 @@ public class MyGameManager : MonoBehaviour
         textIn.ActivateInputField();
 
         player.OnPlayerMoved();
-
     }
 
     private void ProcessMultiWordUserCommand(CommandAndOtherWords commandNounPair)
