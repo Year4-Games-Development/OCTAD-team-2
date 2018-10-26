@@ -26,6 +26,8 @@ public class MyGameManager : MonoBehaviour
     private CommandParser commandParser;
     private Map map;
 	private Player player;
+    private PickUp pickup;
+    private Quest quest;
 
 
     //List for logging previous actions
@@ -102,6 +104,7 @@ public class MyGameManager : MonoBehaviour
                             message = "You picked up: " + item.name + " (" + item.description + ")";   
                             player.addItem(item);
                             player.GetLocation().pickupables = new List<PickUp>();
+                            
                         }
         
                         break;
@@ -140,6 +143,7 @@ public class MyGameManager : MonoBehaviour
                     message = player.GetLocation().GetTalk() + " \n New Quest added!  \n" + quest.name + " (" + quest.description + ")";           
                     player.addQuest(quest);
                     player.GetLocation().quests = new List<Quest>();
+                 
 
                 }
                 else
@@ -148,9 +152,32 @@ public class MyGameManager : MonoBehaviour
                 }
                 break;
             case Util.Command.Journal:
+                message = "Journal: \n " ;
+                if(player.quests.Count == 1){
 
-                message = "Your items: \n " + "List of items " + "\n " + " \n Your Quests: \n "+ "List of quests " ;
-                        
+                foreach (Quest quest in player.quests)
+                    {
+                        message = "Quests: \n" + "Quest Name: " + quest.name + "\n " + "Description: " +quest.description;
+                    }
+                }
+                else
+                {
+                    message = "You have no active quests";
+                } 
+                break;
+            case Util.Command.Backpack:
+                message = "You look into your backpack: \n " ;
+                if (player.items.Count > 0)
+                {
+                    foreach (PickUp item in player.items)
+                    {
+                        message = "Your Items: \n" + item.name + " (" + item.description+ ")\n ";
+                    }
+                }
+                else
+                {
+                    message = "no items in backpack";
+                } 
                 break;
             case Util.Command.North:
                 if (null != player.GetLocation().exitNorth)

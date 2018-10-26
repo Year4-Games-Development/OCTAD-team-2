@@ -26,6 +26,7 @@ public class Util
 		East,
 		West,
 		Pickup,
+		Backpack,
 		Pick,
 		Journal,
 		Drop,

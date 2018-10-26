@@ -14,8 +14,8 @@ public class Player
     bool isDead;
      */
 
-    List<PickUp> items;
-    List<Quest> quests;
+   public List<PickUp> items;
+    public List<Quest> quests;
     //    List<int> quests;
     float amountOfMoney;
     Location currentLocation;
@@ -40,7 +40,7 @@ public class Player
         items.Add(item);
     }
 
-    void removeItem(PickUp item)
+    public void removeItem(PickUp item)
     {
         items.Remove(item);
     }
