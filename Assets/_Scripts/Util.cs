@@ -16,69 +16,68 @@ public class Util
         commands.Add("south", "Makes your character move to the south side of your current location.");
         commands.Add("east", "Makes your character move to the east side of your current location.");
         commands.Add("west", "Makes your character move to the west side of your current location.");
-        commands.Add("pickup", "Picks up an item.\nUsage: pickup <item name>");
-        commands.Add("drop", "Drops an item.\nUsage: drop <item name>");
+        commands.Add("backpack", "Shows your current inventory.");
+        commands.Add("journal", "Shows your current ongoing quests.");
+        commands.Add("pick up", "Picks up an item and add it to your backpack.");
     }
 
     public enum Type
-	{
-		Start,
-		Help,
-		Unknown,
-		North,
-		South,
-		East,
-		West
-	}
-	
-	public enum Command
-	{
-		Quit,
-		Help,
-		Look,
-		Talk,
-		North,
-		South,
-		East,
-		West,
-		Pickup,
-		Backpack,
-		Pick,
-		Journal,
-		Drop,
-		Unknown        
-	}
-	
-	public enum Noun
-	{
-		Door,
-		Key,
-		Up,
-		Unknown
-        
-	}
+    {
+        Start,
+        Help,
+        Unknown,
+        North,
+        South,
+        East,
+        West
+    }
 
-	public static string Message(Type t)
-	{
-		switch (t)
-		{
-			case Type.Unknown:
-				return "UNKNOWN command - please write something I understand";
+    public enum Command
+    {
+        Quit,
+        Help,
+        Look,
+        Talk,
+        North,
+        South,
+        East,
+        West,
+        Pickup,
+        Backpack,
+        Pick,
+        Journal,
+        Unknown
+    }
 
-			default:
-				/*
+    public enum Noun
+    {
+        Door,
+        Key,
+        Up,
+        Unknown
+
+    }
+
+    public static string Message(Type t)
+    {
+        switch (t)
+        {
+            case Type.Unknown:
+                return "UNKNOWN command - please write something I understand";
+
+            default:
+                /*
 				 * TODO: Generate some kind of error event ??
 				 */
-				return "";				
-		}
+                return "";
+        }
+    }
 
-	}
 
-
-	public static string ColorText(string t, string color)
-	{
-		return "<color=" + color + ">" + t + "</color>";
-	}
+    public static string ColorText(string t, string color)
+    {
+        return "<color=" + color + ">" + t + "</color>";
+    }
 
     public static string ColorText(string t, Color color)
     {
